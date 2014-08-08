@@ -68,7 +68,7 @@ public class Range {
 	public ArrayList< Range > splitOverlappingRanges(Range dominantRange, Range recessiveRange){
 		ArrayList<Range> list = new ArrayList<Range>();
 		list.add(dominantRange);
-		if(dominantRange.startingNumber < recessiveRange.startingNumber){
+		if(dominantRange.startingNumber <= recessiveRange.startingNumber){
 			list.add(new Range(dominantRange.endingNumber + 1, recessiveRange.endingNumber));
 		}
 		else{
