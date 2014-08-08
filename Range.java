@@ -11,7 +11,7 @@ public class Range {
 	int startingNumber;
 	int endingNumber;
 	
-	private Range(){
+	public Range(){
 		
 	}
 	
@@ -21,14 +21,16 @@ public class Range {
 	}
 	
 	public boolean isOverlapping(Range firstRange, Range secondRange){
-		if(firstRange.startingNumber < secondRange.startingNumber && firstRange.endingNumber > secondRange.startingNumber)
+		if(firstRange.startingNumber <= secondRange.startingNumber && firstRange.endingNumber >= secondRange.startingNumber)
 			return true;
-		if(secondRange.startingNumber < firstRange.startingNumber && secondRange.endingNumber > firstRange.startingNumber)
+		if(secondRange.startingNumber <= firstRange.startingNumber && secondRange.endingNumber >= firstRange.startingNumber)
 			return true;
 		return false;
 	}
 	
-	public boolean isContinous(Range firstRange, Range secondRange){
+	public boolean isContinuous(Range firstRange, Range secondRange){
+		if(isOverlapping(firstRange, secondRange)) return true;
+		
 		if(firstRange.endingNumber + 1 == secondRange.startingNumber)
 			return true;
 		if(secondRange.endingNumber + 1 == firstRange.startingNumber)
@@ -37,21 +39,16 @@ public class Range {
 	}
 	
 	public boolean contains(Range newRange){
-		if(this.startingNumber < newRange.startingNumber && this.endingNumber > newRange.endingNumber)
+		if(this.startingNumber <= newRange.startingNumber && this.endingNumber >= newRange.endingNumber)
 			return true;
 		return false;
 	}
 	
 	public Range mergeTwoRanges(Range firstRange, Range secondRange){
-		if(firstRange.endingNumber + 1 == secondRange.startingNumber){
-			firstRange.endingNumber = secondRange.endingNumber;
-			return firstRange;
-		}
-		if(secondRange.endingNumber + 1 == firstRange.startingNumber){
-			secondRange.endingNumber = firstRange.endingNumber;
-			return secondRange;
-		}
-		return firstRange;
+		Range range = new Range();
+		range.startingNumber = Math.min(firstRange.startingNumber, secondRange.startingNumber);
+		range.endingNumber = Math.max(firstRange.endingNumber, secondRange.endingNumber);
+		return range;
 	}
 	
 	public ArrayList< Range > splitConstituentRanges(Range dominantRange, Range recessiveRange){
